@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import Fastify, { type FastifyError, type FastifyReply, type FastifyRequest } from "fastify";
 import { readFileSync } from "node:fs";
 import { TLSSocket } from "node:tls";
