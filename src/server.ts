@@ -6,20 +6,27 @@ import { fastifyRequestContext } from "@fastify/request-context";
 import { env } from "node:process";
 import { healthRoutes } from './routes/health.js';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 const app = Fastify({
     logger: { level: env.LOG_LEVEL as 'debug' | 'info' | 'warn' | 'error' },
-    https: {
-        key: readFileSync('./certs/server.key'),
-        cert: readFileSync('./certs/server.crt'),
-        requestCert: true,
-        rejectUnauthorized: true,
-        ca: [readFileSync('./certs/ca.crt')],
-    },
+    ...(isProduction
+    ? {}
+    : {
+        https: {
+            key: readFileSync('./certs/server.key'),
+            cert: readFileSync('./certs/server.crt'),
+            requestCert: true,
+            rejectUnauthorized: true,
+            ca: [readFileSync('./certs/ca.crt')],
+        },
+    }),
 })
 
 await app.register(fastifyRequestContext);
 
 app.addHook('onRequest', async (request, reply) => {
+    if (isProduction) return;
     const socket = request.socket as TLSSocket;
     const cert = socket.getPeerCertificate();
     const cn = Array.isArray(cert?.subject?.CN) ? cert.subject.CN[0] : cert?.subject?.CN;
