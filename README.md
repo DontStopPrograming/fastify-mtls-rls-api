@@ -14,7 +14,7 @@ corre en local, porque Render termina TLS en su borde y el certificado de client
 
 ## Arquitectura
 
-![Diagrama de arquitectura](arquitectura.png)
+![Diagrama de arquitectura](arquitectura.drawio.png)
 
 
 ## Stack
