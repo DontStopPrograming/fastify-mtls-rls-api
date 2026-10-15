@@ -12,6 +12,11 @@ corre en local, porque Render termina TLS en su borde y el certificado de client
 ---
 
 
+## Arquitectura
+
+![Diagrama de arquitectura](img/arquitectura.drawio)
+
+
 ## Stack
 
 - **Runtime:** Node.js + TypeScript
